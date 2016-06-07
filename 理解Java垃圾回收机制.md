@@ -150,29 +150,30 @@ PS：大家可以先猜猜Java虚拟机（这里默认指Hotspot）采用的是�
 现在假定有新生代Eden，Survivor A， Survivor B三块空间和老生代Old一块空间。
 
 
-// 分配了一个又一个对象
-放到Eden区
-// 不好，Eden区满了，只能GC(新生代GC：Minor GC)了
-把Eden区的存活对象copy到Survivor A区，然后清空Eden区（本来Survivor B区也需要清空的，不过本来就是空的）
-// 又分配了一个又一个对象
-放到Eden区
-// 不好，Eden区又满了，只能GC(新生代GC：Minor GC)了
-把Eden区和Survivor A区的存活对象copy到Survivor B区，然后清空Eden区和Survivor A区
-// 又分配了一个又一个对象
-放到Eden区
-// 不好，Eden区又满了，只能GC(新生代GC：Minor GC)了
-把Eden区和Survivor B区的存活对象copy到Survivor A区，然后清空Eden区和Survivor B区
-// ...
-// 有的对象来回在Survivor A区或者B区呆了比如15次，就被分配到老年代Old区
-// 有的对象太大，超过了Eden区，直接被分配在Old区
-// 有的存活对象，放不下Survivor区，也被分配到Old区
-// ...
-// 在某次Minor GC的过程中突然发现：
-// 不好，老年代Old区也满了，这是一次大GC(老年代GC：Major GC)
-Old区慢慢的整理一番，空间又够了
-// 继续Minor GC
-// ...
-// ...
+      // 分配了一个又一个对象
+      放到Eden区
+      // 不好，Eden区满了，只能GC(新生代GC：Minor GC)了
+      把Eden区的存活对象copy到Survivor A区，然后清空Eden区（本来Survivor B区也需要清空的，不过本来就是空的）
+      // 又分配了一个又一个对象
+      放到Eden区
+      // 不好，Eden区又满了，只能GC(新生代GC：Minor GC)了
+      把Eden区和Survivor A区的存活对象copy到Survivor B区，然后清空Eden区和Survivor A区
+      // 又分配了一个又一个对象
+      放到Eden区
+      // 不好，Eden区又满了，只能GC(新生代GC：Minor GC)了
+      把Eden区和Survivor B区的存活对象copy到Survivor A区，然后清空Eden区和Survivor B区
+      // ...
+      // 有的对象来回在Survivor A区或者B区呆了比如15次，就被分配到老年代Old区
+      // 有的对象太大，超过了Eden区，直接被分配在Old区
+      // 有的存活对象，放不下Survivor区，也被分配到Old区
+      // ...
+      // 在某次Minor GC的过程中突然发现：
+      // 不好，老年代Old区也满了，这是一次大GC(老年代GC：Major GC)
+      Old区慢慢的整理一番，空间又够了
+      // 继续Minor GC
+      // ...
+      // ...
+
 从这段流程中，我相信大家应该有了一个清晰的认识了，当然为了说明原理，这只是最简化版本。
 
 ###触发GC的类型
