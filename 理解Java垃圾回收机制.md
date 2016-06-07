@@ -48,7 +48,9 @@ Survivor存放每次垃圾回收后存活的对象。
 ####1. 引用计数算法
 
 给对象中添加一个引用计数器，每当有一个地方引用它时，计数器值就加1；当引用失效时，计数器值就减1；任何时刻计数器为0的对象就是不可能再被使用的。
+
 ![github](https://raw.githubusercontent.com/FangWW/Develop-Article/master/img/gc3_recycled_object.png "github")
+
 优点是简单，高效，现在的objective-c用的就是这种算法。
 缺点是很难处理循环引用，比如图中相互引用的两个对象则无法释放。
 这个缺点很致命，有人可能会问，那objective-c不是用的好好的吗？
@@ -58,7 +60,9 @@ Survivor存放每次垃圾回收后存活的对象。
 
 为了解决上面的循环引用问题，Java采用了一种新的算法：可达性分析算法。
 从GC Roots（每种具体实现对GC Roots有不同的定义）作为起点，向下搜索它们引用的对象，可以生成一棵引用树，树的节点视为可达对象，反之视为不可达。
+
 ![github](https://raw.githubusercontent.com/FangWW/Develop-Article/master/img/gc4_root_object.png "github")
+
 OK，即使循环引用了，只要没有被GC Roots引用了依然会被回收，完美！
 但是，这个GC Roots的定义就要考究了，Java语言定义了如下GC Roots对象：
 
@@ -86,6 +90,7 @@ PS：大家可以先猜猜Java虚拟机（这里默认指Hotspot）采用的是�
 优点是简单，容易实现。
 缺点是容易产生内存碎片，碎片太多可能会导致后续过程中需要为大对象分配空间时无法找到足够的空间而提前触发新的一次垃圾收集动作。
 示意图如下（不用我解说了吧）：
+
 ![github](https://raw.githubusercontent.com/FangWW/Develop-Article/master/img/gc5_mark_sweep.png "github")
 
 ####2. 复制算法 (Copying)
@@ -94,6 +99,7 @@ PS：大家可以先猜猜Java虚拟机（这里默认指Hotspot）采用的是�
 优缺点就是，实现简单，运行高效且不容易产生内存碎片，但是却对内存空间的使用做出了高昂的代价，因为能够使用的内存缩减到原来的一半。
 从算法原理我们可以看出，Copying算法的效率跟存活对象的数目多少有很大的关系，如果存活对象很多，那么Copying算法的效率将会大大降低。
 示意图如下（不用我解说了吧）：
+
 ![github](https://raw.githubusercontent.com/FangWW/Develop-Article/master/img/gc6_copying.png "github")
 
 ####3. 标记整理算法 (Mark-Compact)
@@ -101,6 +107,7 @@ PS：大家可以先猜猜Java虚拟机（这里默认指Hotspot）采用的是�
 该算法标记阶段和Mark-Sweep一样，但是在完成标记之后，它不是直接清理可回收对象，而是将存活对象都向一端移动，然后清理掉端边界以外的内存。
 所以，特别适用于存活对象多，回收对象少的情况下。
 示意图如下（不用我解说了吧）：
+
 ![github](https://raw.githubusercontent.com/FangWW/Develop-Article/master/img/gc7_mark_compact.png "github")
 
 ####4. 分代回收算法
