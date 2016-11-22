@@ -243,8 +243,8 @@ MANAGE_BIND_IP = '127.0.0.1'
 MANAGE_PORT = 23333
 
 PANEL_VERSION = 'V3' # V2 or V3. V2 not support API
-API_URL = 'http://ss.panzijiang.com/mu'
-API_PASS = 'sspanel'
+API_URL = 'http://ss.domain.com/mu'
+API_PASS = ''
 NODE_ID = '1'
 CHECKTIME = 15
 SYNCTIME = 600
