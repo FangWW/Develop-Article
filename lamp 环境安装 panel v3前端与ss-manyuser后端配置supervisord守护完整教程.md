@@ -113,7 +113,7 @@ vim /etc/apache2/apache2.conf
 配置二级域名,并指向ss的public路径
 vim /etc/apache2/sites-enabled/000-default.conf
 <VirtualHost *:80>
-       serverName ss.panzijiang.com
+       serverName ss.domain.com
         ServerAdmin webmaster@localhost
        DocumentRoot /var/www/ss/public
         ErrorLog ${APACHE_LOG_DIR}/error_ss.log
